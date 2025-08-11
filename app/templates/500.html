@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - Credit Score AI{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 text-center">
+            <div class="error-page">
+                <!-- Error Icon -->
+                <div class="error-icon mb-4">
+                    <i class="fas fa-exclamation-triangle fa-4x text-danger opacity-75"></i>
+                </div>
+                
+                <!-- Error Code -->
+                <h1 class="display-1 fw-bold text-danger mb-3">500</h1>
+                
+                <!-- Error Message -->
+                <h2 class="h3 text-dark mb-3">Internal Server Error</h2>
+                <p class="text-muted mb-4">
+                    Oops! Something went wrong on our end. Our AI is taking a quick break, 
+                    but don't worry - we're working to fix this issue right away.
+                </p>
+                
+                <!-- Status Info -->
+                <div class="alert alert-warning border-0 mb-4">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>What happened?</strong> Our server encountered an unexpected error while processing your request.
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mb-5">
+                    <button onclick="location.reload()" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-redo me-2"></i>
+                        Try Again
+                    </button>
+                    
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="fas fa-home me-2"></i>
+                        Go to Homepage
+                    </a>
+                </div>
+                
+                <!-- Troubleshooting Steps -->
+                <div class="card border-0 bg-light mb-4">
+                    <div class="card-body">
+                        <h6 class="text-primary mb-3">
+                            <i class="fas fa-tools me-2"></i>
+                            Troubleshooting Steps
+                        </h6>
+                        <div class="row text-start">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled small">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Wait a few moments and try again
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Refresh the page (Ctrl + F5)
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled small">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Clear your browser cache
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Try a different browser
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Alternative Actions -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-line text-success fa-2x mb-3"></i>
+                                <h6>Try Simple Prediction</h6>
+                                <p class="small text-muted">Use our basic prediction form if the advanced version isn't working</p>
+                                <a href="{{ url_for('predict') }}" class="btn btn-outline-success btn-sm">Basic Form</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-code text-warning fa-2x mb-3"></i>
+                                <h6>Use API Direct</h6>
+                                <p class="small text-muted">Access our prediction service directly via API</p>
+                                <a href="#" onclick="showApiDocs()" class="btn btn-outline-warning btn-sm">API Access</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Support -->
+                <div class="mt-5">
+                    <div class="card border-0 bg-danger text-white">
+                        <div class="card-body">
+                            <h6 class="mb-3">
+                                <i class="fas fa-headset me-2"></i>
+                                Still Having Issues?
+                            </h6>
+                            <p class="mb-3 small">
+                                If the problem persists, our technical team has been automatically notified. 
+                                The issue is being investigated and should be resolved shortly.
+                            </p>
+                            <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
+                                <small class="text-light">
+                                    <i class="fas fa-clock me-1"></i>
+                                    Error occurred at: <span id="errorTime"></span>
+                                </small>
+                                <small class="text-light">
+                                    <i class="fas fa-hashtag me-1"></i>
+                                    Error ID: <code class="text-light">ERR-{{ range(1000, 9999) | random }}</code>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Status -->
+                <div class="mt-4">
+                    <div class="d-flex align-items-center justify-content-center text-muted small">
+                        <span class="status-indicator bg-warning rounded-circle me-2"></span>
+                        Service Status: Experiencing Issues
+                        <span class="ms-3">
+                            <i class="fas fa-external-link-alt me-1"></i>
+                            <a href="#" class="text-muted">Check Status Page</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .error-page {
+        padding: 2rem 0;
+    }
+    
+    .error-icon {
+        position: relative;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 0.75; }
+        50% { opacity: 1; }
+        100% { opacity: 0.75; }
+    }
+    
+    .display-1 {
+        font-size: 6rem;
+        font-weight: 900;
+    }
+    
+    .status-indicator {
+        width: 8px;
+        height: 8px;
+        display: inline-block;
+        animation: blink 1.5s infinite;
+    }
+    
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0.3; }
+    }
+    
+    @media (max-width: 768px) {
+        .display-1 {
+            font-size: 4rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Display current time
+    document.addEventListener('DOMContentLoaded', function() {
+        const errorTimeElement = document.getElementById('errorTime');
+        if (errorTimeElement) {
+            const now = new Date();
+            errorTimeElement.textContent = now.toLocaleString();
+        }
+        
+        // Auto-retry after 30 seconds
+        setTimeout(() => {
+            const retryButton = document.querySelector('button[onclick="location.reload()"]');
+            if (retryButton) {
+                retryButton.innerHTML = '<i class="fas fa-redo me-2"></i>Auto-Retry in Progress...';
+                retryButton.disabled = true;
+                location.reload();
+            }
+        }, 30000);
+    });
+</script>
+{% endblock %}

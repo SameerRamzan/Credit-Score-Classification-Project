@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - Credit Score AI{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 text-center">
+            <div class="error-page">
+                <!-- Error Icon -->
+                <div class="error-icon mb-4">
+                    <i class="fas fa-search fa-4x text-muted opacity-50"></i>
+                </div>
+                
+                <!-- Error Code -->
+                <h1 class="display-1 fw-bold text-primary mb-3">404</h1>
+                
+                <!-- Error Message -->
+                <h2 class="h3 text-dark mb-3">Page Not Found</h2>
+                <p class="text-muted mb-4">
+                    Sorry, the page you are looking for doesn't exist or has been moved. 
+                    Don't worry, our AI is still here to help you with your credit score prediction!
+                </p>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mb-5">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-home me-2"></i>
+                        Go to Homepage
+                    </a>
+                    
+                    <a href="{{ url_for('predict') }}" class="btn btn-success btn-lg px-4">
+                        <i class="fas fa-calculator me-2"></i>
+                        Get Prediction
+                    </a>
+                </div>
+                
+                <!-- Helpful Links -->
+                <div class="row g-3 mt-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-line text-primary fa-2x mb-3"></i>
+                                <h6>Credit Prediction</h6>
+                                <p class="small text-muted">Get instant AI-powered credit score assessment</p>
+                                <a href="{{ url_for('predict') }}" class="btn btn-outline-primary btn-sm">Try Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-info-circle text-info fa-2x mb-3"></i>
+                                <h6>Learn About AI</h6>
+                                <p class="small text-muted">Discover how our machine learning model works</p>
+                                <a href="{{ url_for('about') }}" class="btn btn-outline-info btn-sm">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-code text-warning fa-2x mb-3"></i>
+                                <h6>API Access</h6>
+                                <p class="small text-muted">Integrate our AI into your applications</p>
+                                <a href="/api/model-info" target="_blank" class="btn btn-outline-warning btn-sm">API Docs</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search Suggestion -->
+                <div class="mt-5">
+                    <div class="card border-0 bg-primary text-white">
+                        <div class="card-body">
+                            <h6 class="mb-3">
+                                <i class="fas fa-lightbulb me-2"></i>
+                                Need Help Finding Something?
+                            </h6>
+                            <p class="mb-3 small">
+                                Our site has moved to a new structure. Here are the most popular destinations:
+                            </p>
+                            <div class="row text-start">
+                                <div class="col-sm-6">
+                                    <ul class="list-unstyled small">
+                                        <li><a href="{{ url_for('index') }}" class="text-white text-decoration-none">
+                                            <i class="fas fa-chevron-right me-1"></i>Home Page
+                                        </a></li>
+                                        <li><a href="{{ url_for('predict') }}" class="text-white text-decoration-none">
+                                            <i class="fas fa-chevron-right me-1"></i>Credit Score Prediction
+                                        </a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="list-unstyled small">
+                                        <li><a href="{{ url_for('about') }}" class="text-white text-decoration-none">
+                                            <i class="fas fa-chevron-right me-1"></i>About Our Model
+                                        </a></li>
+                                        <li><a href="/api/model-info" class="text-white text-decoration-none">
+                                            <i class="fas fa-chevron-right me-1"></i>API Documentation
+                                        </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .error-page {
+        padding: 2rem 0;
+    }
+    
+    .error-icon {
+        position: relative;
+    }
+    
+    .error-icon::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+        border: 3px dashed #dee2e6;
+        border-radius: 50%;
+        z-index: -1;
+    }
+    
+    .display-1 {
+        font-size: 6rem;
+        font-weight: 900;
+    }
+    
+    @media (max-width: 768px) {
+        .display-1 {
+            font-size: 4rem;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,25 @@
+# Production Docker Compose for deployment
+version: '3.8'
+
+services:
+  credit-score-ai:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=app.py
+      - SECRET_KEY=${SECRET_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - ./models:/app/models:ro
+      - ./data:/app/data:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# For development, use: docker-compose -f docker-compose.dev.yml up
