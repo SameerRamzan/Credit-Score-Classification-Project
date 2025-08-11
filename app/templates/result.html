@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+
+{% block title %}Credit Score Prediction Result{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold text-primary mb-3">
+                    <i class="fas fa-chart-line me-3"></i>
+                    Your Credit Score Prediction
+                </h1>
+                <p class="lead text-muted">
+                    Based on the information you provided, here's your AI-powered credit score assessment.
+                </p>
+            </div>
+
+            <!-- Main Result Card -->
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-lg border-0 result-card">
+                        <div class="card-body text-center p-5">
+                            {% set prediction = result.prediction %}
+                            {% set score_color = 'success' if prediction == 'Good' else 'warning' if prediction == 'Standard' else 'danger' %}
+                            {% set score_icon = 'fa-thumbs-up' if prediction == 'Good' else 'fa-balance-scale' if prediction == 'Standard' else 'fa-exclamation-triangle' %}
+                            
+                            <div class="result-icon text-{{ score_color }} mb-4">
+                                <i class="fas {{ score_icon }} fa-4x"></i>
+                            </div>
+                            
+                            <h2 class="display-4 fw-bold text-{{ score_color }} mb-3">
+                                {{ prediction }} Credit Score
+                            </h2>
+                            
+                            {% if prediction == 'Good' %}
+                                <p class="lead text-success mb-4">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Excellent! You have a strong credit profile with low risk indicators.
+                                </p>
+                            {% elif prediction == 'Standard' %}
+                                <p class="lead text-warning mb-4">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Your credit score is fair. There's room for improvement in some areas.
+                                </p>
+                            {% else %}
+                                <p class="lead text-danger mb-4">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Your credit score needs attention. Consider improving your financial habits.
+                                </p>
+                            {% endif %}
+                            
+                            <div class="timestamp text-muted small">
+                                <i class="fas fa-clock me-1"></i>
+                                Prediction generated on {{ result.timestamp.split('T')[0] }} at {{ result.timestamp.split('T')[1].split('.')[0] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Probability Breakdown -->
+            {% if result.probabilities %}
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <h4 class="mb-0">
+                                <i class="fas fa-chart-pie me-2"></i>
+                                Probability Breakdown
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-4">
+                                Our AI model calculated the following probabilities for each credit score category:
+                            </p>
+                            
+                            {% for class_name, probability in result.probabilities.items() %}
+                                {% set prob_percent = (probability * 100) | round(1) %}
+                                {% set bar_color = 'success' if class_name == 'Good' else 'warning' if class_name == 'Standard' else 'danger' %}
+                                
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="fw-bold">{{ class_name }}</span>
+                                        <span class="badge bg-{{ bar_color }}">{{ prob_percent }}%</span>
+                                    </div>
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar bg-{{ bar_color }}" 
+                                             role="progressbar" 
+                                             style="width: {{ prob_percent }}%"
+                                             data-animate="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Recommendations -->
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0">
+                                <i class="fas fa-lightbulb me-2"></i>
+                                Recommendations for Improvement
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            {% if prediction == 'Good' %}
+                                <div class="alert alert-success border-0">
+                                    <h6 class="fw-bold">Keep up the great work! 🎉</h6>
+                                    <ul class="mb-0">
+                                        <li>Continue making payments on time</li>
+                                        <li>Maintain low credit utilization (below 30%)</li>
+                                        <li>Keep old credit accounts open to maintain credit history length</li>
+                                        <li>Monitor your credit report regularly for any errors</li>
+                                    </ul>
+                                </div>
+                            {% elif prediction == 'Standard' %}
+                                <div class="alert alert-warning border-0">
+                                    <h6 class="fw-bold">Here's how to improve your score: 📈</h6>
+                                    <ul class="mb-0">
+                                        <li>Pay down existing debt to improve debt-to-income ratio</li>
+                                        <li>Reduce credit card utilization below 30%</li>
+                                        <li>Make all payments on time going forward</li>
+                                        <li>Consider increasing your credit limits (but don't use the extra credit)</li>
+                                        <li>Avoid opening too many new credit accounts at once</li>
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-danger border-0">
+                                    <h6 class="fw-bold">Priority actions to improve your credit: 🚨</h6>
+                                    <ul class="mb-0">
+                                        <li><strong>Immediate:</strong> Start making all payments on time</li>
+                                        <li><strong>Short-term:</strong> Pay down high-interest debt first</li>
+                                        <li><strong>Medium-term:</strong> Reduce overall debt-to-income ratio</li>
+                                        <li>Consider working with a credit counselor</li>
+                                        <li>Review your credit report for errors and dispute them</li>
+                                        <li>Avoid taking on additional debt until your score improves</li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Summary -->
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <h4 class="mb-0">
+                                <i class="fas fa-list me-2"></i>
+                                Input Summary
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <h6 class="text-primary">Personal Information</h6>
+                                    <ul class="list-unstyled small">
+                                        <li><strong>Age:</strong> {{ form_data.age }}</li>
+                                        <li><strong>Occupation:</strong> {{ form_data.occupation }}</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h6 class="text-success">Financial Details</h6>
+                                    <ul class="list-unstyled small">
+                                        <li><strong>Annual Income:</strong> ${{ "{:,}".format(form_data.annual_income | float | int) }}</li>
+                                        <li><strong>Monthly Salary:</strong> ${{ "{:,}".format(form_data.monthly_salary | float | int) }}</li>
+                                        <li><strong>Outstanding Debt:</strong> ${{ "{:,}".format(form_data.outstanding_debt | float | int) }}</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h6 class="text-info">Credit Information</h6>
+                                    <ul class="list-unstyled small">
+                                        <li><strong>Credit Cards:</strong> {{ form_data.num_credit_cards }}</li>
+                                        <li><strong>Bank Accounts:</strong> {{ form_data.num_bank_accounts }}</li>
+                                        <li><strong>Credit Utilization:</strong> {{ form_data.credit_utilization_ratio }}%</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h6 class="text-warning">Payment Behavior</h6>
+                                    <ul class="list-unstyled small">
+                                        <li><strong>Delayed Payments:</strong> {{ form_data.num_delayed_payments }}</li>
+                                        <li><strong>Average Delay:</strong> {{ form_data.delay_from_due_date }} days</li>
+                                        <li><strong>Payment of Min Amount:</strong> {{ form_data.payment_of_min_amount }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center">
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                    <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-redo me-2"></i>
+                        Try Another Prediction
+                    </a>
+                    
+                    <button class="btn btn-success btn-lg px-4" onclick="downloadReport()">
+                        <i class="fas fa-download me-2"></i>
+                        Download Report
+                    </button>
+                    
+                    <button class="btn btn-info btn-lg px-4" onclick="shareResult()">
+                        <i class="fas fa-share me-2"></i>
+                        Share Result
+                    </button>
+                </div>
+                
+                <div class="mt-4">
+                    <small class="text-muted">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        Your data is processed securely and never stored permanently.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-share me-2"></i>Share Your Result
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted">Share your credit score prediction result:</p>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="shareUrl" value="{{ request.url }}" readonly>
+                    <button class="btn btn-outline-secondary" onclick="copyToClipboard()">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <div class="mt-3">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Only the prediction result is shared, not your personal financial data.
+                    </small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Animate progress bars on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBars = document.querySelectorAll('.progress-bar[data-animate]');
+        
+        setTimeout(() => {
+            progressBars.forEach(bar => {
+                bar.style.transition = 'width 1.5s ease-in-out';
+                bar.style.width = bar.style.width;
+            });
+        }, 500);
+    });
+
+    function downloadReport() {
+        // Create a simple report
+        const resultData = {
+            prediction: "{{ result.prediction }}",
+            timestamp: "{{ result.timestamp }}",
+            probabilities: {{ result.probabilities | tojson | safe }},
+            recommendations: "Based on your {{ result.prediction }} credit score prediction..."
+        };
+        
+        const blob = new Blob([JSON.stringify(resultData, null, 2)], {
+            type: 'application/json'
+        });
+        
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'credit_score_report.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        // Show success message
+        const alert = document.createElement('div');
+        alert.className = 'alert alert-success alert-dismissible fade show position-fixed';
+        alert.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        alert.innerHTML = `
+            <i class="fas fa-check-circle me-2"></i>
+            Report downloaded successfully!
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.appendChild(alert);
+        
+        setTimeout(() => {
+            alert.remove();
+        }, 3000);
+    }
+
+    function shareResult() {
+        new bootstrap.Modal(document.getElementById('shareModal')).show();
+    }
+
+    function copyToClipboard() {
+        const shareUrl = document.getElementById('shareUrl');
+        shareUrl.select();
+        shareUrl.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(shareUrl.value);
+        
+        // Show feedback
+        const button = event.target.closest('button');
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check text-success"></i>';
+        
+        setTimeout(() => {
+            button.innerHTML = originalHTML;
+        }, 2000);
+    }
+</script>
+{% endblock %}
