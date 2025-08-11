@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+
+{% block title %}Credit Score Prediction - Enter Your Details{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header Section -->
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold text-primary mb-3">
+                    <i class="fas fa-calculator me-3"></i>
+                    Credit Score Prediction
+                </h1>
+                <p class="lead text-muted">
+                    Fill in your financial details below to get an instant credit score prediction. 
+                    All information is processed securely and never stored.
+                </p>
+                <div class="d-inline-flex align-items-center bg-light rounded-pill px-3 py-2">
+                    <i class="fas fa-shield-alt text-success me-2"></i>
+                    <small class="text-muted">Secure • Private • Instant Results</small>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="progress-container mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="step-indicator active" data-step="1">
+                        <i class="fas fa-user"></i> Personal
+                    </span>
+                    <span class="step-indicator" data-step="2">
+                        <i class="fas fa-dollar-sign"></i> Financial
+                    </span>
+                    <span class="step-indicator" data-step="3">
+                        <i class="fas fa-credit-card"></i> Credit
+                    </span>
+                    <span class="step-indicator" data-step="4">
+                        <i class="fas fa-chart-bar"></i> Behavior
+                    </span>
+                </div>
+                <div class="progress mt-2">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 25%"></div>
+                </div>
+            </div>
+
+            <!-- Main Form -->
+            <form method="POST" id="creditForm" novalidate>
+                {{ form.hidden_tag() }}
+                
+                <!-- Step 1: Personal Information -->
+                <div class="form-step active" id="step-1">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0">
+                                <i class="fas fa-user me-2"></i>
+                                Personal Information
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.age.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-birthday-cake text-primary me-1"></i>
+                                        {{ form.age.label.text }}
+                                    </label>
+                                    {{ form.age(class="form-control form-control-lg") }}
+                                    {% if form.age.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.age.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted">Must be between 18 and 100 years</small>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.occupation.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-briefcase text-primary me-1"></i>
+                                        {{ form.occupation.label.text }}
+                                    </label>
+                                    {{ form.occupation(class="form-control form-control-lg") }}
+                                    {% if form.occupation.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.occupation.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Financial Information -->
+                <div class="form-step" id="step-2">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-success text-white">
+                            <h4 class="mb-0">
+                                <i class="fas fa-dollar-sign me-2"></i>
+                                Financial Information
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.annual_income.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-money-bill-wave text-success me-1"></i>
+                                        {{ form.annual_income.label.text }}
+                                    </label>
+                                    {{ form.annual_income(class="form-control form-control-lg") }}
+                                    {% if form.annual_income.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.annual_income.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.monthly_salary.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-calendar-alt text-success me-1"></i>
+                                        {{ form.monthly_salary.label.text }}
+                                    </label>
+                                    {{ form.monthly_salary(class="form-control form-control-lg") }}
+                                    {% if form.monthly_salary.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.monthly_salary.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.outstanding_debt.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-exclamation-triangle text-warning me-1"></i>
+                                        {{ form.outstanding_debt.label.text }}
+                                    </label>
+                                    {{ form.outstanding_debt(class="form-control form-control-lg") }}
+                                    {% if form.outstanding_debt.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.outstanding_debt.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.monthly_balance.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-balance-scale text-info me-1"></i>
+                                        {{ form.monthly_balance.label.text }}
+                                    </label>
+                                    {{ form.monthly_balance(class="form-control form-control-lg") }}
+                                    {% if form.monthly_balance.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.monthly_balance.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.total_emi_per_month.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-receipt text-primary me-1"></i>
+                                        {{ form.total_emi_per_month.label.text }}
+                                    </label>
+                                    {{ form.total_emi_per_month(class="form-control form-control-lg") }}
+                                    {% if form.total_emi_per_month.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.total_emi_per_month.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.amount_invested_monthly.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-chart-line text-success me-1"></i>
+                                        {{ form.amount_invested_monthly.label.text }}
+                                    </label>
+                                    {{ form.amount_invested_monthly(class="form-control form-control-lg") }}
+                                    {% if form.amount_invested_monthly.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.amount_invested_monthly.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Credit Information -->
+                <div class="form-step" id="step-3">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-info text-white">
+                            <h4 class="mb-0">
+                                <i class="fas fa-credit-card me-2"></i>
+                                Credit Information
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.num_bank_accounts.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-university text-primary me-1"></i>
+                                        {{ form.num_bank_accounts.label.text }}
+                                    </label>
+                                    {{ form.num_bank_accounts(class="form-control form-control-lg") }}
+                                    {% if form.num_bank_accounts.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.num_bank_accounts.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.num_credit_cards.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-credit-card text-info me-1"></i>
+                                        {{ form.num_credit_cards.label.text }}
+                                    </label>
+                                    {{ form.num_credit_cards(class="form-control form-control-lg") }}
+                                    {% if form.num_credit_cards.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.num_credit_cards.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.interest_rate.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-percentage text-warning me-1"></i>
+                                        {{ form.interest_rate.label.text }}
+                                    </label>
+                                    {{ form.interest_rate(class="form-control form-control-lg") }}
+                                    {% if form.interest_rate.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.interest_rate.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.num_loans.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-handshake text-success me-1"></i>
+                                        {{ form.num_loans.label.text }}
+                                    </label>
+                                    {{ form.num_loans(class="form-control form-control-lg") }}
+                                    {% if form.num_loans.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.num_loans.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.credit_utilization_ratio.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-chart-pie text-primary me-1"></i>
+                                        {{ form.credit_utilization_ratio.label.text }}
+                                    </label>
+                                    {{ form.credit_utilization_ratio(class="form-control form-control-lg") }}
+                                    {% if form.credit_utilization_ratio.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.credit_utilization_ratio.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.credit_history_age.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-history text-info me-1"></i>
+                                        {{ form.credit_history_age.label.text }}
+                                    </label>
+                                    {{ form.credit_history_age(class="form-control form-control-lg") }}
+                                    {% if form.credit_history_age.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.credit_history_age.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <label for="{{ form.credit_mix.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-layer-group text-primary me-1"></i>
+                                        {{ form.credit_mix.label.text }}
+                                    </label>
+                                    {{ form.credit_mix(class="form-control form-control-lg") }}
+                                    {% if form.credit_mix.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.credit_mix.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Payment Behavior -->
+                <div class="form-step" id="step-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-warning text-dark">
+                            <h4 class="mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                Payment Behavior
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="{{ form.delay_from_due_date.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-clock text-warning me-1"></i>
+                                        {{ form.delay_from_due_date.label.text }}
+                                    </label>
+                                    {{ form.delay_from_due_date(class="form-control form-control-lg") }}
+                                    {% if form.delay_from_due_date.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.delay_from_due_date.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="{{ form.num_delayed_payments.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-exclamation-circle text-danger me-1"></i>
+                                        {{ form.num_delayed_payments.label.text }}
+                                    </label>
+                                    {{ form.num_delayed_payments(class="form-control form-control-lg") }}
+                                    {% if form.num_delayed_payments.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.num_delayed_payments.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <label for="{{ form.payment_of_min_amount.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-check-circle text-success me-1"></i>
+                                        {{ form.payment_of_min_amount.label.text }}
+                                    </label>
+                                    {{ form.payment_of_min_amount(class="form-control form-control-lg") }}
+                                    {% if form.payment_of_min_amount.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.payment_of_min_amount.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <label for="{{ form.payment_behaviour.id }}" class="form-label fw-bold">
+                                        <i class="fas fa-user-chart text-primary me-1"></i>
+                                        {{ form.payment_behaviour.label.text }}
+                                    </label>
+                                    {{ form.payment_behaviour(class="form-control form-control-lg") }}
+                                    {% if form.payment_behaviour.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form.payment_behaviour.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtn" onclick="changeStep(-1)" style="display: none;">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Previous
+                    </button>
+                    
+                    <div class="ms-auto">
+                        <button type="button" class="btn btn-primary btn-lg" id="nextBtn" onclick="changeStep(1)">
+                            Next
+                            <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                        
+                        <button type="submit" class="btn btn-success btn-lg" id="submitBtn" style="display: none;">
+                            <i class="fas fa-magic me-2"></i>
+                            Get My Credit Score
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/prediction-form.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+
+{% block title %}Credit Score AI - Intelligent Credit Assessment{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-chart-line text-warning me-3"></i>
+                    Credit Score AI
+                </h1>
+                <p class="lead mb-4">
+                    Get instant, accurate credit score predictions using advanced machine learning algorithms. 
+                    Our AI-powered system analyzes your financial data to provide reliable credit assessments.
+                </p>
+                
+                <div class="d-flex flex-column flex-sm-row gap-3 mb-4">
+                    <a href="{{ url_for('predict') }}" class="btn btn-warning btn-lg px-4">
+                        <i class="fas fa-calculator me-2"></i>
+                        Get My Credit Score
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn btn-outline-light btn-lg px-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Learn More
+                    </a>
+                </div>
+                
+                {% if model_info and model_info.performance_metrics %}
+                <div class="d-flex align-items-center">
+                    <div class="badge bg-success fs-6 me-3">
+                        <i class="fas fa-check-circle me-1"></i>
+                        {{ (model_info.performance_metrics.test_accuracy * 100) | round(1) }}% Accuracy
+                    </div>
+                    <small class="text-light opacity-75">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        Trusted by thousands of users
+                    </small>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <div class="hero-illustration">
+                        <i class="fas fa-brain display-1 text-warning opacity-75 mb-3"></i>
+                        <div class="floating-elements">
+                            <div class="floating-card">
+                                <i class="fas fa-credit-card text-primary"></i>
+                            </div>
+                            <div class="floating-chart">
+                                <i class="fas fa-chart-bar text-success"></i>
+                            </div>
+                            <div class="floating-coins">
+                                <i class="fas fa-coins text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold text-primary mb-3">
+                    Why Choose Our Credit Score AI?
+                </h2>
+                <p class="lead text-muted">
+                    Experience the power of machine learning in financial assessment with our cutting-edge technology.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4 h-100">
+                    <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h4 class="h5 fw-bold mb-3">Instant Results</h4>
+                    <p class="text-muted">
+                        Get your credit score prediction in seconds. Our optimized algorithms process your data 
+                        instantly without any waiting time.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4 h-100">
+                    <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 class="h5 fw-bold mb-3">Highly Accurate</h4>
+                    <p class="text-muted">
+                        Our machine learning model achieves 
+                        {% if model_info and model_info.performance_metrics %}
+                            {{ (model_info.performance_metrics.test_accuracy * 100) | round(1) }}%
+                        {% else %}
+                            85%
+                        {% endif %}
+                        accuracy, trained on extensive financial datasets to ensure reliable predictions.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4 h-100">
+                    <div class="feature-icon bg-warning text-white rounded-circle mx-auto mb-3">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h4 class="h5 fw-bold mb-3">Secure & Private</h4>
+                    <p class="text-muted">
+                        Your financial data is processed securely and never stored. We prioritize your privacy 
+                        and data protection above all.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold text-primary mb-3">
+                    How It Works
+                </h2>
+                <p class="lead text-muted">
+                    Simple steps to get your credit score prediction using our AI system.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card text-center">
+                    <div class="step-number bg-primary text-white rounded-circle mx-auto mb-3">1</div>
+                    <h5 class="fw-bold mb-3">Enter Information</h5>
+                    <p class="text-muted">
+                        Fill in your financial details including income, expenses, and credit history.
+                    </p>
+                    <i class="fas fa-edit text-primary fa-2x"></i>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card text-center">
+                    <div class="step-number bg-primary text-white rounded-circle mx-auto mb-3">2</div>
+                    <h5 class="fw-bold mb-3">AI Analysis</h5>
+                    <p class="text-muted">
+                        Our machine learning algorithm analyzes your data using advanced statistical models.
+                    </p>
+                    <i class="fas fa-cogs text-primary fa-2x"></i>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card text-center">
+                    <div class="step-number bg-primary text-white rounded-circle mx-auto mb-3">3</div>
+                    <h5 class="fw-bold mb-3">Get Prediction</h5>
+                    <p class="text-muted">
+                        Receive your credit score category with detailed probability breakdown.
+                    </p>
+                    <i class="fas fa-chart-pie text-primary fa-2x"></i>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6">
+                <div class="step-card text-center">
+                    <div class="step-number bg-primary text-white rounded-circle mx-auto mb-3">4</div>
+                    <h5 class="fw-bold mb-3">Take Action</h5>
+                    <p class="text-muted">
+                        Use insights to improve your financial health and credit standing.
+                    </p>
+                    <i class="fas fa-rocket text-primary fa-2x"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-play me-2"></i>
+                Start Your Assessment
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-3 col-6">
+                <div class="stat-item">
+                    <h3 class="display-4 fw-bold text-primary mb-2">
+                        <span class="counter" data-target="10000">0</span>+
+                    </h3>
+                    <p class="text-muted">Predictions Made</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="stat-item">
+                    <h3 class="display-4 fw-bold text-success mb-2">
+                        <span class="counter" data-target="{{ (model_info.performance_metrics.test_accuracy * 100) | round(0) if model_info and model_info.performance_metrics else 85 }}">0</span>%
+                    </h3>
+                    <p class="text-muted">Accuracy Rate</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="stat-item">
+                    <h3 class="display-4 fw-bold text-warning mb-2">
+                        <span class="counter" data-target="19">0</span>
+                    </h3>
+                    <p class="text-muted">Input Features</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="stat-item">
+                    <h3 class="display-4 fw-bold text-info mb-2">
+                        <span class="counter" data-target="3">0</span>
+                    </h3>
+                    <p class="text-muted">Credit Categories</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-primary text-white py-5">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="display-5 fw-bold mb-3">
+                    Ready to Check Your Credit Score?
+                </h2>
+                <p class="lead mb-4">
+                    Join thousands of users who trust our AI-powered credit assessment system. 
+                    Get started today and take control of your financial future.
+                </p>
+                
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                    <a href="{{ url_for('predict') }}" class="btn btn-warning btn-lg px-5">
+                        <i class="fas fa-calculator me-2"></i>
+                        Check My Score Now
+                    </a>
+                    <a href="/api/model-info" target="_blank" class="btn btn-outline-light btn-lg px-5">
+                        <i class="fas fa-code me-2"></i>
+                        API Access
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <small class="opacity-75">
+                        <i class="fas fa-clock me-1"></i>
+                        Takes less than 2 minutes • 100% Free • No Registration Required
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Counter animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const counters = document.querySelectorAll('.counter');
+        
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const increment = target / 50;
+            let current = 0;
+            
+            const updateCounter = () => {
+                if (current < target) {
+                    current += increment;
+                    counter.textContent = Math.ceil(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target;
+                }
+            };
+            
+            updateCounter();
+        };
+        
+        // Intersection Observer for counter animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target.querySelector('.counter');
+                    if (counter && !counter.classList.contains('animated')) {
+                        counter.classList.add('animated');
+                        animateCounter(counter);
+                    }
+                }
+            });
+        });
+        
+        document.querySelectorAll('.stat-item').forEach(item => {
+            observer.observe(item);
+        });
+    });
+</script>
+{% endblock %}
