@@ -7,7 +7,7 @@ using machine learning models trained on financial data.
 Author: Credit Score Classification Project
 Date: 2024
 """
-
+#import flask
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import (
@@ -29,7 +29,7 @@ from config import Config, DevelopmentConfig, ProductionConfig, MODELS_DIR
 
 def create_app(config_name='development'):
     """Application factory pattern"""
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="app/templates", static_folder="app/static")
     
     # Configure app based on environment
     if config_name == 'production':
